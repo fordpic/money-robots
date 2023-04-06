@@ -14,4 +14,8 @@ bot = discord.Bot()
 async def on_ready():
     print(f'We have logged in as {bot.user}')
 
+@bot.slash_command()
+async def sup(ctx):
+    await ctx.respond('Supsies')
+
 bot.run(TOKEN)
