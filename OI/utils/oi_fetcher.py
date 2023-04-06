@@ -7,21 +7,18 @@ load_dotenv()
 COINALYZE = os.getenv('COINALYZE_KEY')
 
 # Query Params
-symbols = """
-BTCUSDT.P,
-ETHUSDT.P,
-MATICUSDT.P,
-ARBUSDT.P,
-FTMUSDT.P,
-SOLUSDT.P,
-LTCUSDT.P,
-DOGEUSDT.P,
-ATOMUSDT.P,
-LINKUSDT.P,
-AVAXUSDT.P,
-DYDXUSDT.P,
-BNBUSDT.P,
-XRPUSDT.P
-"""
+symbols = str('BTCUSDT')
 
-endpoint = 'https://api.coinalyze.net/v1/open-interest'
+
+
+async def main():
+
+    async with aiohttp.ClientSession() as session:
+        endpoint = f'https://api.coinalyze.net/v1/open-interest?symbols=BTCUSDT&api_key={COINALYZE}'
+
+        async with session.get(endpoint) as res:
+            tokens = await res.json()
+            print(tokens)
+            print(symbols)
+
+asyncio.run(main())
