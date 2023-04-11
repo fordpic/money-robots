@@ -9,16 +9,17 @@ COINALYZE = os.getenv('COINALYZE_KEY')
 # Query Params
 symbols = str('BTCUSDT')
 
+async def fetch(client):
+    async with client.get(f'https://api.coinalyze.net/v1/open-interest?symbols=BTCUSDT&api_key={COINALYZE}') as res:
+        assert res.status == 200
+        return await res.text()
 
 
 async def main():
 
-    async with aiohttp.ClientSession() as session:
-        endpoint = f'https://api.coinalyze.net/v1/open-interest?symbols=BTCUSDT&api_key={COINALYZE}'
+    async with aiohttp.ClientSession() as client:
+        data = await fetch(client)
+        print(data)
 
-        async with session.get(endpoint) as res:
-            tokens = await res.json()
-            print(tokens)
-            print(symbols)
-
-asyncio.run(main())
+loop = asyncio.get_event_loop()
+loop.run_until_complete(main())
